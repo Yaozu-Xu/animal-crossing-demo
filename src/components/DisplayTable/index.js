@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FishContext } from "@store/index";
 import "./index.scss";
 
 const displayTable = () => {
   const fishData = useContext(FishContext);
+  const [currentCard, setcurrentCard] = useState(null)
 
   function generateFishCols() {
     if (fishData) {
       const cards = fishData.map((obj, index) => {
         return (
-          <div className="card" key={index}>
+          <div className={`card ${index === currentCard ? 'current' : ''}`} key={index} onClick={() => bindCardClicked(index)}>
             <img src={`src/assets/fish/${obj.icon}`} />
             <div className="name"> {obj.name} </div>
             <div className="price"> ￥{obj.price} </div>
@@ -18,6 +19,12 @@ const displayTable = () => {
       });
       return cards;
     }
+  }
+
+  function bindCardClicked(index){
+    let current = fishData[index]
+    setcurrentCard(index)
+    console.log(current)
   }
 
   return (

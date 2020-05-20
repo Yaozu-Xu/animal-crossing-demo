@@ -21,13 +21,17 @@ const leftSideBar = () => {
   }, []);
 
   function bindLiClickEvent(ul){
-    let target = ul.dataset.target
+    let target = ul.dataset.target // ref to id
     let lis = ul.children
     for(let i=0; i < lis.length; i++){
       let li = lis[i]
       li.addEventListener("click", function(){
-        let value = this.dataset.value
-        document.querySelector(`#${target}`).dataset.value = value
+        let value = this.dataset.value 
+        let text = this.innerText
+        let targeted = document.querySelector(`#${target}`)
+        targeted.dataset.value = value
+        targeted.style.display = 'block'
+        targeted.innerText = text
       })
     }
   }
@@ -35,9 +39,9 @@ const leftSideBar = () => {
   return (
     <div className="left-container">
       <div className="search">
-        <div className="search-bubble" id="month" data-value="">1月</div>
-        <div className="search-bubble" id="location" data-value="">sss</div>
-        <div className="search-bubble" id="shadowSize" data-value="">sss</div>
+        <div className="search-bubble" id="month" data-value=""></div>
+        <div className="search-bubble" id="location" data-value=""></div>
+        <div className="search-bubble" id="shadowSize" data-value=""></div>
       </div>
       <nav>
         <ul className="category-list">
