@@ -2,8 +2,12 @@
   border-color: rgb(218, 113, 113) !important;
 }
 
+.detail-show{
+  display: block !important;
+}
+
 .display-container {
-  margin: 40px 0 0 240px;
+  margin: 40px 100px 0 240px;
   .cards-list {
     max-width: 800px;
     max-height: 600px;
@@ -30,6 +34,30 @@
           font-size: 12px;
           padding-bottom: 4px;
           font-family: 'Times New Roman', Times, serif;
+      }
+    }
+  }
+  .card-description{
+    display: none;
+    position: absolute;
+    z-index: 99;
+    border: 2px solid rgba(0, 0, 0, 0.07);;
+    right: 0;
+    top: 50%;
+    width: 200px;
+    text-align: center;
+    transform: translateY(-50%);
+    border-radius: 10px 0 0 10px;
+    .card-item{
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);;
+      .card-title{
+        color: #939da3;
+        font-size: 12px;
+      }
+      .card-body{
+        font-size: 12px;
       }
     }
   }

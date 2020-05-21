@@ -12,7 +12,7 @@ const IndexPage = () => {
         <h1>Animal Crossing HandBook</h1>
         <h3>动物之森资源图鉴</h3>
         <div className="ref-wrapper">
-          <a>作者 Github</a>
+          <a href="https://github.com/xuyaozu/animal-crossing-demo" target="_blank">作者 Github</a>
         </div>
       </div>
       <div className="navigation">

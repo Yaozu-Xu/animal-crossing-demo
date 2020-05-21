@@ -52,6 +52,7 @@ module.exports = {
           '@components': resolve('../src/components'),
           '@api': resolve('../src/apis'),
           '@store': resolve('../src/store'),
+          '@conf': resolve('../src/config'),
         },
     },
     plugins: [
