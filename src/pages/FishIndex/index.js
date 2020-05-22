@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch} from 'react-redux'
 import FishApi from "@api/fish";
 import LeftSideBar from "@components/LeftSideBar/index";
 import DisplayTable from "@components/DisplayTable/index";
-import { FishContext } from '@store/index'
+import { update_fetch_data } from "@store/actions/displayList"
 
 const FishIndex = () => {
-  const [data, setData] = useState(null);
+  // const displayData = useSelector(state => state.displayList)
+  const dispatch = useDispatch()
   const fetchData = async () => {
     const res = await FishApi.getFish();
-    setData(res.data);
+    dispatch(update_fetch_data(res.data))
   };
   useEffect(() => {
       fetchData()
   }, []);
-  
   return (
     <div className="main">
-      <FishContext.Provider value={{fishData:data, searchState: []}}>
         <LeftSideBar />
         <DisplayTable/>
-      </FishContext.Provider>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React from 'react'
+import { createStore } from 'redux'
+import reducer from './reducer/index'
 
-const FishContext = React.createContext({});
+export default createStore(reducer)
 
-export { FishContext }

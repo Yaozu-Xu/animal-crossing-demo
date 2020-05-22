@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { update_search_state } from "@store/actions/displayList"
 import "./index.scss";
 
 const leftSideBar = () => {
-
+  const searchState  = useSelector(state => state.displayList.searchState)
+  const dispatch = useDispatch()
+  
   useEffect(() => {
     let categories = document.querySelectorAll(".category");
     categories.forEach((li) => {
@@ -29,9 +33,13 @@ const leftSideBar = () => {
         let value = this.dataset.value 
         let text = this.innerText
         let targeted = document.querySelector(`#${target}`)
+        // update search input
         targeted.dataset.value = value
         targeted.style.display = 'block'
         targeted.innerText = text
+        // update redux
+        searchState[target] = value
+        dispatch(update_search_state(searchState))
       })
     }
   }
