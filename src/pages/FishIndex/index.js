@@ -16,7 +16,7 @@ const FishIndex = () => {
   
   return (
     <div className="main">
-      <FishContext.Provider value={data}>
+      <FishContext.Provider value={{fishData:data, searchState: []}}>
         <LeftSideBar />
         <DisplayTable/>
       </FishContext.Provider>

@@ -39,13 +39,22 @@ const leftSideBar = () => {
   return (
     <div className="left-container">
       <div className="search">
+      <div className="search-bubble" id="hemisphere" data-value=""></div>
         <div className="search-bubble" id="month" data-value=""></div>
         <div className="search-bubble" id="location" data-value=""></div>
         <div className="search-bubble" id="shadowSize" data-value=""></div>
+        <span>🔍</span>
       </div>
       <nav>
         <ul className="category-list">
           <li className="category">鱼类图鉴</li>
+          <li className="category">
+            <span>选择半球</span>
+            <ul className="details" data-target="hemisphere">
+                <li data-value="1">北半球</li>
+                <li data-value="2">南半球</li>
+            </ul>
+          </li>
           <li className="category">
             <span>选择月份</span>
             <ul className="details" data-target="month">

@@ -1,13 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState} from "react";
 import { FishContext } from "@store/index";
 import "./index.scss";
 import {locationMap, shadowSizeMap} from "@conf/index"
 
 const displayTable = () => {
-  const fishData = useContext(FishContext);
+  const {fishData, searchState} = useContext(FishContext);
   const [currentCard, setcurrentCard] = useState(null)
   const [currentObject, setcurrentObject] = useState(null)
-
   function generateFishCols() {
     if (fishData) {
       const cards = fishData.map((obj, index) => {
@@ -31,8 +30,6 @@ const displayTable = () => {
     let current = fishData[index]
     setcurrentCard(index)
     setcurrentObject(current)
-    console.log(current)
-    console.log(currentObject)
   }
 
   return (
