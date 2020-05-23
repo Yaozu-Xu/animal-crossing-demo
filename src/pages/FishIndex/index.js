@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import FishApi from "@api/fish";
 import LeftSideBar from "@components/LeftSideBar/index";
 import DisplayTable from "@components/DisplayTable/index";

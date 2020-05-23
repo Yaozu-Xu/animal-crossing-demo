@@ -1,6 +1,6 @@
 const initState = {
     fetchData: null,
-    searchState: {hemisphere: null, month: null, location: null, shadowSize: null}
+    searchState: {hemisphere: 0, month: 0, location: 0, shadowSize: 0}
 }
 
 export default (state=initState, action) => {

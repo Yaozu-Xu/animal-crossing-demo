@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import { update_search_state } from "@store/actions/displayList"
+import { update_search_state, update_fetch_data } from "@store/actions/displayList"
+import FishApi from "@api/fish";
 import "./index.scss";
 
 const leftSideBar = () => {
@@ -23,6 +24,14 @@ const leftSideBar = () => {
       }
     });
   }, []);
+
+  async function searchBtnClicked(){
+    let query = Object.keys(searchState).map(function (key) {
+      return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(searchState[key]));
+    }).join('&');
+    const res = await FishApi.queryFish('?' + query)
+    dispatch(update_fetch_data(res.data))
+  }
 
   function bindLiClickEvent(ul){
     let target = ul.dataset.target // ref to id
@@ -51,7 +60,8 @@ const leftSideBar = () => {
         <div className="search-bubble" id="month" data-value=""></div>
         <div className="search-bubble" id="location" data-value=""></div>
         <div className="search-bubble" id="shadowSize" data-value=""></div>
-        <span>🔍</span>
+        <span onClick={() => searchBtnClicked
+        ()}>🔍</span>
       </div>
       <nav>
         <ul className="category-list">
