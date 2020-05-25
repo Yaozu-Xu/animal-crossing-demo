@@ -5,8 +5,11 @@
 # 项目描述
 
 框架: react
+
 打包: webpack
+
 包管理: yarn
+
 mock: json-server
 
 # 安装依赖
