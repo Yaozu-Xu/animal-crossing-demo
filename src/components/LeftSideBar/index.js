@@ -51,7 +51,6 @@ const leftSideBar = () => {
     }else if(process.env.NODE_ENV === 'development'){
       let temp = await FishApi.getFish()
       res = filterSearchRes(temp.data)
-      console.log(res)
     }
     dispatch(update_fetch_data(res))
   }
