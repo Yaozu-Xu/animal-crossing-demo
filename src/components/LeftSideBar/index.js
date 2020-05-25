@@ -1,89 +1,94 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import { update_search_state, update_fetch_data } from "@store/actions/displayList"
+import { useSelector, useDispatch } from "react-redux";
+import {
+  update_search_state,
+  update_fetch_data,
+} from "@store/actions/displayList";
 import FishApi from "@api/fish";
 import "./index.scss";
 
 const leftSideBar = () => {
-  const searchState  = useSelector(state => state.displayList.searchState)
-  const dispatch = useDispatch()
+  const searchState = useSelector((state) => state.displayList.searchState);
+  const dispatch = useDispatch();
   useEffect(() => {
     let categories = document.querySelectorAll(".category");
     categories.forEach((li) => {
       if (li.children.length > 0) {
-        let span = li.firstChild
-        let ul = li.lastChild
+        let span = li.firstChild;
+        let ul = li.lastChild;
         // bind opening child menu event
         span.addEventListener("click", function () {
           let ul = this.nextSibling;
           ul.classList.toggle("active");
         });
         // bind choose event
-        bindLiClickEvent(ul)
+        bindLiClickEvent(ul);
       }
     });
   }, []);
 
-  function filterSearchRes(data){
-    const hemisphere = searchState['hemisphere']
-    const location = searchState['location']
-    const shadowSize =  searchState['shadowSize']
-    const month = parseInt(searchState['month'])
-    return data.filter(obj => 
-      (
-        (location == 0 ? true : obj['location'] == location)
-      && 
-        (shadowSize == 0 ? true : obj['shadowSize'] == shadowSize)
-      && 
-        ((hemisphere == 0 || month == 0) ? true : obj['hemisphere'][hemisphere]['month'].indexOf(month) !== -1)
-      )
-    )
+  function filterSearchRes(data) {
+    const hemisphere = searchState["hemisphere"];
+    const location = searchState["location"];
+    const shadowSize = searchState["shadowSize"];
+    const month = parseInt(searchState["month"]);
+    return data.filter(
+      (obj) =>
+        (location == 0 ? true : obj["location"] == location) &&
+        (shadowSize == 0 ? true : obj["shadowSize"] == shadowSize) &&
+        (hemisphere == 0 || month == 0
+          ? true
+          : obj["hemisphere"][hemisphere]["month"].indexOf(month) !== -1)
+    );
   }
 
-  async function searchBtnClicked(){
-    let res
-    if(process.env.NODE_ENV === 'production'){
-      let query = Object.keys(searchState).map(function (key) {
-        return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(searchState[key]));
-      }).join('&');
-      let temp = await FishApi.queryFish('?' + query)
-      res = temp.data
-    }else if(process.env.NODE_ENV === 'development'){
-      let temp = await FishApi.getFish()
-      res = filterSearchRes(temp.data)
+  async function searchBtnClicked() {
+    let res;
+    if (process.env.NODE_ENV === "production") {
+      let query = Object.keys(searchState)
+        .map(function (key) {
+          return ""
+            .concat(encodeURIComponent(key), "=")
+            .concat(encodeURIComponent(searchState[key]));
+        })
+        .join("&");
+      let temp = await FishApi.queryFish("?" + query);
+      res = temp.data;
+    } else if (process.env.NODE_ENV === "development") {
+      let temp = await FishApi.getFish();
+      res = filterSearchRes(temp.data);
     }
-    dispatch(update_fetch_data(res))
+    dispatch(update_fetch_data(res));
   }
 
-  function bindLiClickEvent(ul){
-    let target = ul.dataset.target // ref to id
-    let lis = ul.children
-    for(let i=0; i < lis.length; i++){
-      let li = lis[i]
-      li.addEventListener("click", function(){
-        let value = this.dataset.value 
-        let text = this.innerText
-        let targeted = document.querySelector(`#${target}`)
+  function bindLiClickEvent(ul) {
+    let target = ul.dataset.target; // ref to id
+    let lis = ul.children;
+    for (let i = 0; i < lis.length; i++) {
+      let li = lis[i];
+      li.addEventListener("click", function () {
+        let value = this.dataset.value;
+        let text = this.innerText;
+        let targeted = document.querySelector(`#${target}`);
         // update search input
-        targeted.dataset.value = value
-        targeted.style.display = 'block'
-        targeted.innerText = text
+        targeted.dataset.value = value;
+        targeted.style.display = "block";
+        targeted.innerText = text;
         // update redux
-        searchState[target] = value
-        dispatch(update_search_state(searchState))
-      })
+        searchState[target] = value;
+        dispatch(update_search_state(searchState));
+      });
     }
   }
 
   return (
     <div className="left-container">
       <div className="search">
-      <div className="search-bubble" id="hemisphere" data-value=""></div>
+        <div className="search-bubble" id="hemisphere" data-value=""></div>
         <div className="search-bubble" id="month" data-value=""></div>
         <div className="search-bubble" id="location" data-value=""></div>
         <div className="search-bubble" id="shadowSize" data-value=""></div>
-        <span onClick={() => searchBtnClicked
-        ()}>🔍</span>
+        <span onClick={() => searchBtnClicked()}>🔍</span>
       </div>
       <nav>
         <ul className="category-list">
@@ -91,8 +96,8 @@ const leftSideBar = () => {
           <li className="category">
             <span>选择半球</span>
             <ul className="details" data-target="hemisphere">
-                <li data-value="1">北半球</li>
-                <li data-value="2">南半球</li>
+              <li data-value="1">北半球</li>
+              <li data-value="2">南半球</li>
             </ul>
           </li>
           <li className="category">
@@ -115,26 +120,26 @@ const leftSideBar = () => {
           <li className="category">
             <span>选择地点</span>
             <ul className="details" data-target="location">
-                <li data-value="1">河流</li>
-                <li data-value="2">大海</li>
-                <li data-value="3">河口</li>
-                <li data-value="4">池塘</li>
-                <li data-value="5">高地水域</li>
-                <li data-value="6">码头</li>
-                <li data-value="7">大海(雨天)</li>
+              <li data-value="1">河流</li>
+              <li data-value="2">大海</li>
+              <li data-value="3">河口</li>
+              <li data-value="4">池塘</li>
+              <li data-value="5">高地水域</li>
+              <li data-value="6">码头</li>
+              <li data-value="7">大海(雨天)</li>
             </ul>
           </li>
           <li className="category">
             <span>鱼影大小</span>
             <ul className="details" data-target="shadowSize">
-                <li data-value="1">特小</li>
-                <li data-value="2">小</li>
-                <li data-value="3">中偏小</li>
-                <li data-value="4">中</li>
-                <li data-value="5">中偏大</li>
-                <li data-value="6">大</li>
-                <li data-value="7">特大</li>
-                <li data-value="8">细长</li>
+              <li data-value="1">特小</li>
+              <li data-value="2">小</li>
+              <li data-value="3">中偏小</li>
+              <li data-value="4">中</li>
+              <li data-value="5">中偏大</li>
+              <li data-value="6">大</li>
+              <li data-value="7">特大</li>
+              <li data-value="8">细长</li>
             </ul>
           </li>
         </ul>

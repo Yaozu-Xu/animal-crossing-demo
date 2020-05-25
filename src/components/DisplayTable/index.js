@@ -44,7 +44,7 @@ const displayTable = () => {
         <div className="card-item">
           <span className="card-title">月份</span>{" "}
           <span className="card-body">
-            {currentObject["hemisphere"][hemisphere]["month"].join(' ')}
+            {currentObject["hemisphere"][hemisphere]["month"].join(" ")}
           </span>
         </div>
       );
