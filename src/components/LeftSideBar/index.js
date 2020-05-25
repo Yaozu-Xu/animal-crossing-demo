@@ -7,7 +7,6 @@ import "./index.scss";
 const leftSideBar = () => {
   const searchState  = useSelector(state => state.displayList.searchState)
   const dispatch = useDispatch()
-  
   useEffect(() => {
     let categories = document.querySelectorAll(".category");
     categories.forEach((li) => {
@@ -25,12 +24,36 @@ const leftSideBar = () => {
     });
   }, []);
 
+  function filterSearchRes(data){
+    const hemisphere = searchState['hemisphere']
+    const location = searchState['location']
+    const shadowSize =  searchState['shadowSize']
+    const month = parseInt(searchState['month'])
+    return data.filter(obj => 
+      (
+        (location == 0 ? true : obj['location'] == location)
+      && 
+        (shadowSize == 0 ? true : obj['shadowSize'] == shadowSize)
+      && 
+        ((hemisphere == 0 || month == 0) ? true : obj['hemisphere'][hemisphere]['month'].indexOf(month) !== -1)
+      )
+    )
+  }
+
   async function searchBtnClicked(){
-    let query = Object.keys(searchState).map(function (key) {
-      return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(searchState[key]));
-    }).join('&');
-    const res = await FishApi.queryFish('?' + query)
-    dispatch(update_fetch_data(res.data))
+    let res
+    if(process.env.NODE_ENV === 'production'){
+      let query = Object.keys(searchState).map(function (key) {
+        return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(searchState[key]));
+      }).join('&');
+      let temp = await FishApi.queryFish('?' + query)
+      res = temp.data
+    }else if(process.env.NODE_ENV === 'development'){
+      let temp = await FishApi.getFish()
+      res = filterSearchRes(temp.data)
+      console.log(res)
+    }
+    dispatch(update_fetch_data(res))
   }
 
   function bindLiClickEvent(ul){
